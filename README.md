@@ -37,3 +37,25 @@ configureWebpack: (config) => {
   }
 
 ```
+
+### options
+```javascript
+// 可以配置参数, 排除显示那些字段
+new PackInfoWebpackPlugin({
+    excludeKeys: ['buildUserEmail']
+})
+
+// 全部字段如下:
+{
+    gitUrl: 'gitUrl', 
+    branch: 'branch',
+    commitHash: 'commitHash',
+    commitAuthor: 'name',
+    commitTime: 'date',
+    commitMessage: 'message',
+    buildTime: '',
+    buildUserName: 'buildUserName',
+    buildUserEmail: 'buildUserEmail'
+}
+
+```

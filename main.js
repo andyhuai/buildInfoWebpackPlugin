@@ -37,20 +37,31 @@ function gitVersion() {
 // const fs = require('fs')
 
 class PackInfoWebpackPlugin {
+  constructor(options = {
+    excludeKeys: []
+  }) {
+    this.options = options
+  }
   apply(compiler) {
     // const outPath = compiler.options.output.path
     // compiler.hooks.done.tap('BuildVersionPlugin', compilation => {
     //   const version = gitVersion()
     //   fs.writeFileSync(outPath + '/gitInfo.json', JSON.stringify(version))
     // })
+    // const version = JSON.stringify(gitVersion())
+    const version = gitVersion()
+    const versionResult = {}
+    Object.keys(version).filter(key => !this.options.excludeKeys.includes(key)).forEach(k => {
+      versionResult[k] = version[k]
+    })
+    const versionStr = JSON.stringify(versionResult)
     compiler.hooks.emit.tapAsync('BuildVersionPlugin', (compilation, cb) => {
-      const version = JSON.stringify(gitVersion())
       compilation.assets['buildInfo.json'] = {
         source: function() {
-          return version
+          return versionStr
         },
         size: function() {
-          return version.length
+          return versionStr.length
         }
       }
       cb()
