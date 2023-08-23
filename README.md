@@ -10,7 +10,7 @@
 
 > 最终生成 `buildInfo.json` 的文件,位于最终产物的根目录
 
-### 使用方法
+### Usage
 ```
 npm i pack-info-webpack-plugin -D
 
@@ -24,6 +24,16 @@ configureWebpack: {
       new PackInfoWebpackPlugin()
     ]
     ...
+  }
+  
+// 或者
+configureWebpack: (config) => {
+    ...
+    _module.plugins = [
+      new PackInfoWebpackPlugin()
+    ]
+    ...
+    return _module
   }
 
 ```
