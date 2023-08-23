@@ -40,7 +40,14 @@ class PackInfoWebpackPlugin {
   constructor(options = {
     excludeKeys: []
   }) {
-    this.options = options
+    if (options && options.excludeKeys) {
+      this.options = options
+    } else {
+      this.options = {
+        excludeKeys: []
+      }
+    }
+
   }
   apply(compiler) {
     // const outPath = compiler.options.output.path
