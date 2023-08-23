@@ -1,0 +1,2 @@
+# buildInfoWebpackPlugin
+buildInfoWebpackPlugin
