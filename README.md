@@ -42,7 +42,8 @@ configureWebpack: (config) => {
 ```javascript
 // 可以配置参数, 排除显示那些字段
 new PackInfoWebpackPlugin({
-    excludeKeys: ['buildUserEmail']
+    excludeKeys: ['buildUserEmail'],
+    isBase64: true // 是否对结果进行base64编码,避免泄露信息
 })
 
 // 全部字段如下:

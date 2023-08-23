@@ -38,13 +38,15 @@ function gitVersion() {
 
 class PackInfoWebpackPlugin {
   constructor(options = {
-    excludeKeys: []
+    excludeKeys: [],
+    isBase64: false
   }) {
-    if (options && options.excludeKeys) {
+    if (options && (options.excludeKeys || options.isBase64 !== undefined)) {
       this.options = options
     } else {
       this.options = {
-        excludeKeys: []
+        excludeKeys: [],
+        isBase64: false
       }
     }
 
@@ -58,10 +60,17 @@ class PackInfoWebpackPlugin {
     // const version = JSON.stringify(gitVersion())
     const version = gitVersion()
     const versionResult = {}
+    if (!this.options.excludeKeys) {
+      this.options.excludeKeys = []
+    }
     Object.keys(version).filter(key => !this.options.excludeKeys.includes(key)).forEach(k => {
       versionResult[k] = version[k]
     })
-    const versionStr = JSON.stringify(versionResult)
+    let versionStr = JSON.stringify(versionResult)
+    if(this.options.isBase64 === true) {
+      versionStr = Buffer.from(versionStr).toString('base64')
+    }
+
     compiler.hooks.emit.tapAsync('BuildVersionPlugin', (compilation, cb) => {
       compilation.assets['buildInfo.json'] = {
         source: function() {
